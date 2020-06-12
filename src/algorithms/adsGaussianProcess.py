@@ -32,7 +32,10 @@ class GPmodel():
         self.data = np.array(self.FullData['value'])
         self.data_mean = np.mean(self.data)
         self.data = self.data - self.data_mean
-
+        
+        '''
+        Please refer the adsConfig.py file for descriptions of following variables.
+        '''
         self.fit_required = configData.fit_required
         self.noise = configData.noise
         self.confidence = configData.confidence
@@ -119,6 +122,7 @@ class GPmodel():
         else:
             print("ERROR: Please train the GP model using .train() method before plotting posterior uncertainity\n")
 
+#Following lines runs only when this script is run independently, hence only used for testing	
 if __name__ == '__main__':
     GP_model = GPmodel(filename)
     GP_model.train()

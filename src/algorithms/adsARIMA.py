@@ -1,4 +1,3 @@
-#implement adfuller
 import os
 import math
 import pickle
@@ -23,7 +22,7 @@ if os.path.exists('data.pkl') == False:
 filename = 'data.pkl'
 
 class ARIMAmodel():
-    def __init__(self, datafile = filename):
+    def __init__(self, filename = filename):
         
         with open("data.pkl", "rb") as f:
             try:
@@ -37,7 +36,10 @@ class ARIMAmodel():
 
         self.data = np.array(self.FullData['value'])
         self.data_mean = np.mean(self.data)
-
+	
+	'''
+        Please refer the adsConfig.py file for descriptions of following variables.
+        '''
         self.param_p = configData.param_p
         self.param_d = configData.param_d
         self.param_q = configData.param_q
@@ -116,8 +118,11 @@ class ARIMAmodel():
         pyplot.plot(predictions, color='red')
         pyplot.show()
 
+#Following lines runs only when this script is run independently, hence only used for testing	
 if __name__ == '__main__':
+	test_point = 123.3
+	
 	AR_model = ARIMAmodel(filename)
 	AR_model.train()
-	AR_model.classify(123.3)
+	AR_model.classify(test_point)
 	AR_model.VisualizeOnTrainingData()
