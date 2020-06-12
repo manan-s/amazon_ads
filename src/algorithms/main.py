@@ -43,7 +43,11 @@ def classify(test_value):
     GP_prediction = int(model_GP.classify(test_value))
     AR_prediction = int(model_AR.classify(test_value))
     ES_prediction = int(model_ES.classify(test_value))
-
+    
+    '''
+    Following makes sure atleast 2 algorithms agree that the point is an anomaly. This is an
+    attempt to reduce false positives.
+    '''
     return ((GP_prediction + AR_prediction + ES_prediction) >= 2)
 
 train()
