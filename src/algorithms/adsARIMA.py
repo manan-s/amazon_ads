@@ -38,8 +38,8 @@ class ARIMAmodel():
         self.data_mean = np.mean(self.data)
 	
 	'''
-	Refer the config file for details about the following variables
-	'''
+        Please refer the adsConfig.py file for descriptions of following variables.
+        '''
         self.param_p = configData.param_p
         self.param_d = configData.param_d
         self.param_q = configData.param_q
