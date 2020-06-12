@@ -37,7 +37,12 @@ class ESmodel():
 
         self.data = np.array(self.FullData['value'])
         self.data_mean = np.mean(self.data)
-
+        #Following is for the 95% confidence interval around the forecast.
+        self.confidence_factor = 1.96
+        
+        '''
+        Please refer the adsConfig.py file for descriptions of following variables.
+        '''
         self.param_alpha = configData.param_alpha
         self.param_beta = configData.param_beta
         self.param_gamma = configData.param_gamma
@@ -101,6 +106,7 @@ class ESmodel():
             forecast2 = self.fit2.forecast(1)[0]
             forecast3 = self.fit3.forecast(1)[0]
             forecast4 = self.fit4.forecast(1)[0]
+            #Taking average of all of the above forecasts
             self.forecast = (forecast1 + forecast2 + forecast3 + forecast4)/4.0
 
         else:
@@ -111,9 +117,9 @@ class ESmodel():
 
     def classify(self, test_data_point):
         if self.training_done == True:
-             
-            self.lower_bound = self.forecast - 1.96*self.std_dev
-            self.upper_bound = self.forecast + 1.96*self.std_dev
+            
+            self.lower_bound = self.forecast - self.confidence_factor*self.std_dev
+            self.upper_bound = self.forecast + self.confidence_factor*self.std_dev
             
             return (test_data_point < self.lower_bound or test_data_point > self.upper_bound)
 
@@ -160,9 +166,11 @@ class ESmodel():
         else:
             print("ERROR: Please train the ES model using .train() method before plotting the fitted values\n")
 
+#Following lines run only when this script is run independently, hence only used for testing	 
 if __name__ == '__main__':
+    test_point = 54.4
     DS_model = ESmodel(datafile = filename, model_type = 'double')
     DS_model.train()
-    print(DS_model.classify(54.4))
+    print(DS_model.classify(test_point))
     print(DS_model.forecast)
     DS_model.plotFittedValues()
